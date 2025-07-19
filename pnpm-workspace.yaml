@@ -1,0 +1,6 @@
+packages:
+  - "."
+  - "example"
+
+ignoredBuiltDependencies:
+  - hnswlib-node

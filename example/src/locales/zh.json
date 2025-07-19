@@ -1,0 +1,30 @@
+{
+  "headerTitle": "HNSW RAG 演示",
+  "status": {
+    "initial": "请配置AI提供商",
+    "readyForUpload": "准备就绪，请上传一个 .txt 文件",
+    "processing": "正在处理文档...",
+    "embedding": "正在嵌入 {count} 个文本块...",
+    "indexing": "正在构建 HNSW 索引...",
+    "readyToChat": "准备就绪 ({count} 个文本块已索引)",
+    "error": "处理文件时出错"
+  },
+  "chatInputPlaceholder": "就文档内容进行提问...",
+  "settingsModal": {
+    "title": "AI 提供商设置",
+    "providerLabel": "AI 提供商",
+    "apiKeyLabel": "API 密钥",
+    "endpointLabel": "API 端点 (可选)",
+    "endpointHint": "用于兼容OpenAI的服务，例如本地LLM。",
+    "embeddingModelLabel": "嵌入模型",
+    "chatModelLabel": "聊天模型",
+    "saveButton": "保存设置",
+    "sessionHint": "您的设置仅在本次浏览器会话中有效。"
+  },
+  "fileUploadError": "处理文档失败。详情请查看控制台。",
+  "chatError": "抱歉，发生了错误。请检查控制台。",
+  "lang": {
+    "english": "English",
+    "chinese": "中文"
+  }
+}

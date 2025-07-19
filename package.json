@@ -1,0 +1,70 @@
+{
+  "name": "@leolee9086/hnsw",
+  "version": "1.0.0",
+  "description": "高性能HNSW (Hierarchical Navigable Small World) 向量索引库",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "bench": "vitest bench bench/hnsw-vs-hnswlib-benchmark.bench.ts",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "rimraf dist",
+    "prepublishOnly": "npm run clean && npm run build",
+    "build:all": "pnpm build && pnpm --filter example build",
+    "dev:example": "pnpm --filter example dev",
+    "test:all": "pnpm test && pnpm --filter example test"
+  },
+  "keywords": [
+    "hnsw",
+    "vector",
+    "index",
+    "similarity-search",
+    "nearest-neighbor",
+    "machine-learning",
+    "ai"
+  ],
+  "author": "leolee9086",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leolee9086/hnsw.git"
+  },
+  "bugs": {
+    "url": "https://github.com/leolee9086/hnsw/issues"
+  },
+  "homepage": "https://github.com/leolee9086/hnsw#readme",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "rimraf": "^5.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "dependencies": {
+    "hnswlib-node": "^3.0.0",
+    "tinyqueue": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

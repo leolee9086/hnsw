@@ -1,0 +1,30 @@
+{
+  "headerTitle": "HNSW RAG Demo",
+  "status": {
+    "initial": "Please configure AI Provider",
+    "readyForUpload": "Ready. Please upload a .txt file",
+    "processing": "Processing document...",
+    "embedding": "Embedding {count} chunks...",
+    "indexing": "Building HNSW index...",
+    "readyToChat": "Ready ({count} chunks indexed)",
+    "error": "Error processing file"
+  },
+  "chatInputPlaceholder": "Ask a question about the document...",
+  "settingsModal": {
+    "title": "AI Provider Settings",
+    "providerLabel": "AI Provider",
+    "apiKeyLabel": "API Key",
+    "endpointLabel": "API Endpoint (Optional)",
+    "endpointHint": "For OpenAI-compatible services like local LLMs.",
+    "embeddingModelLabel": "Embedding Model",
+    "chatModelLabel": "Chat Model",
+    "saveButton": "Save Settings",
+    "sessionHint": "Your settings are stored only in your browser for this session."
+  },
+  "fileUploadError": "Failed to process the document. See console for details.",
+  "chatError": "Sorry, an error occurred. Please check the console.",
+  "lang": {
+    "english": "English",
+    "chinese": "中文"
+  }
+}
