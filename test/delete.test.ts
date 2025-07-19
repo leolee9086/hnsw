@@ -1,15 +1,34 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { hnsw } from '../src';
-const createHNSWIndex = hnsw.createIndex;
+const createHNSWIndex = hnsw.createIndexGeneric;
 
 describe('HNSW Midi Optimized Delete Functionality', () => {
-  let index: ReturnType<typeof createHNSWIndex>;
+  let index: ReturnType<typeof createHNSWIndex<number[]>>;
 
   beforeEach(() => {
+    // 定义余弦距离函数
+    const cosineDistance = (a: number[], b: number[]): number => {
+      let dotProduct = 0;
+      let normA = 0;
+      let normB = 0;
+      
+      for (let i = 0; i < a.length; i++) {
+        dotProduct += a[i]! * b[i]!;
+        normA += a[i]! * a[i]!;
+        normB += b[i]! * b[i]!;
+      }
+      
+      normA = Math.sqrt(normA);
+      normB = Math.sqrt(normB);
+      
+      if (normA === 0 || normB === 0) return 1.0;
+      return 1.0 - dotProduct / (normA * normB);
+    };
+
     index = createHNSWIndex({
       M: 16,
       efConstruction: 200,
-      metricType: 'cosine'
+      distanceFunction: cosineDistance
     });
   });
 
