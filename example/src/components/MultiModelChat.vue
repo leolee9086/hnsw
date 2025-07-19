@@ -10,18 +10,13 @@
     
     <!-- 多模型聊天区域 -->
     <div v-else class="chat-area">
-      <!-- 聊天面板标题栏 -->
-      <ChatHeader 
-        :active-chats-count="activeChats.length"
-        :is-processing="isProcessing"
-        @add-more-models="addMoreModels"
-        @close-all-chats="closeAllChats"
-      />
-      
       <!-- 聊天面板容器 -->
       <ChatPanelsContainer 
         :active-chats="activeChats"
         :is-processing="isProcessing"
+        :active-chats-count="activeChats.length"
+        :process-steps="props.processSteps"
+        :model-statuses="props.modelStatuses"
         @close-chat="closeChat"
         @resend-message="resendMessage"
         @edit-message="editMessage"
@@ -29,6 +24,9 @@
         @retry-chat="retryChat"
         @retry-chat-with-strategy="retryChatWithStrategy"
         @action="handleAction"
+        @add-more-models="addMoreModels"
+        @close-all-chats="closeAllChats"
+        @clear-steps="$emit('clear-steps')"
       />
       
       <!-- 统一的输入区域 -->
@@ -55,7 +53,6 @@ import { ref, computed, nextTick } from 'vue';
 import { modelConfigService, type ChatModelSelection } from '../services/ModelConfigService';
 import { createChatProvider, type ChatProvider } from '../services/AIProviderService';
 import ModelSelector from './ModelSelector.vue';
-import ChatHeader from './MultiModelChat/ChatHeader.vue';
 import ChatPanelsContainer from './MultiModelChat/ChatPanelsContainer.vue';
 import ChatInput from './MultiModelChat/ChatInput.vue';
 import EditMessageModal from './MultiModelChat/EditMessageModal.vue';
@@ -65,6 +62,35 @@ import type { ChatStream, EditForm, Message } from './MultiModelChat/types';
  * 多模型聊天主组件
  * 管理多个AI模型的并行对话功能
  */
+
+// Props
+interface Props {
+  processSteps?: Array<{
+    id: string;
+    title: string;
+    type?: 'search' | 'embedding' | 'generation';
+    status: 'pending' | 'processing' | 'success' | 'error';
+    time?: string;
+    details?: any;
+  }>;
+  modelStatuses?: Array<{
+    name: string;
+    status: string;
+    progress?: number;
+  }>;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  processSteps: () => [],
+  modelStatuses: () => []
+});
+
+// Emits
+interface Emits {
+  'clear-steps': [];
+}
+
+defineEmits<Emits>();
 
 // 响应式数据
 const activeChats = ref<ChatStream[]>([]);
@@ -494,7 +520,9 @@ const openChatSettings = (chat: ChatStream) => {
 .multi-model-chat {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: var(--available-height, 100%);
+  width: 100%;
+  overflow: hidden;
 }
 
 .model-selection-area {
@@ -509,5 +537,8 @@ const openChatSettings = (chat: ChatStream) => {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 </style> 

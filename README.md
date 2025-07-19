@@ -1,6 +1,6 @@
 # @leolee9086/hnsw
 
-HNSW (Hierarchical Navigable Small World) 向量索引库，用于快速相似性搜索。
+JavaScript HNSW (Hierarchical Navigable Small World) 向量索引库，用于快速相似性搜索。纯 JavaScript 实现，支持动态操作和泛型搜索。
 
 ## 🚀 特性
 

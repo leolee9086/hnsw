@@ -1,31 +1,32 @@
 <template>
   <div class="chat-input-area">
     <div class="input-container">
-      <textarea 
-        class="form-control"
-        placeholder="输入消息... (Ctrl+Enter 发送给所有模型)"
-        v-model="userInput"
-        @keydown="handleKeydown"
-        :disabled="isProcessing"
-        rows="3"
-      ></textarea>
+      <div class="input-row">
+        <textarea 
+          class="form-control"
+          placeholder="输入消息... (Ctrl+Enter 发送给所有模型)"
+          v-model="userInput"
+          @keydown="handleKeydown"
+          :disabled="isProcessing"
+          rows="3"
+        ></textarea>
+        
+        <button 
+          class="btn btn-primary send-button"
+          @click="$emit('send-message')"
+          :disabled="isProcessing || !userInput.trim()"
+          title="发送消息"
+        >
+          <span v-if="isProcessing" class="spinner-border spinner-border-sm me-1"></span>
+          <i v-else class="bi bi-send me-1"></i>
+          发送
+        </button>
+      </div>
       
-      <div class="input-actions">
-        <div class="d-flex align-items-center gap-2">
-          <span class="text-muted small">
-            将发送给 {{ activeChatsCount }} 个模型
-          </span>
-          <button 
-            class="btn btn-primary btn-sm"
-            @click="$emit('send-message')"
-            :disabled="isProcessing || !userInput.trim()"
-            title="发送消息"
-          >
-            <span v-if="isProcessing" class="spinner-border spinner-border-sm me-1"></span>
-            <i v-else class="bi bi-send me-1"></i>
-            发送
-          </button>
-        </div>
+      <div class="input-info">
+        <span class="text-muted small">
+          将发送给 {{ activeChatsCount }} 个模型
+        </span>
       </div>
     </div>
   </div>
@@ -84,9 +85,10 @@ const handleKeydown = (event: KeyboardEvent) => {
 <style scoped>
 .chat-input-area {
   border-top: 1px solid var(--bs-border-color);
-  padding: 1rem;
+  padding: 0.75rem;
   background: var(--bs-body-bg);
   flex-shrink: 0;
+  min-height: 0;
 }
 
 .input-container {
@@ -95,9 +97,30 @@ const handleKeydown = (event: KeyboardEvent) => {
   gap: 0.5rem;
 }
 
-.input-actions {
+.input-row {
   display: flex;
-  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.input-info {
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
+}
+
+.send-button {
+  flex-shrink: 0;
+  height: fit-content;
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+}
+
+/* 优化textarea高度 */
+.form-control {
+  resize: none;
+  min-height: 60px;
+  max-height: 120px;
+  flex: 1;
 }
 </style> 

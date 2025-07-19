@@ -9,19 +9,12 @@
       @show-settings="showSettings"
     />
 
-    <!-- Main Content -->
-    <div class="main-content">
-      <!-- Left Panel - Multi Model Chat -->
-      <MultiModelChat />
-
-      <!-- Right Panel - AI Process -->
-      <ProcessPanel 
-        :process-steps="processStepManager.getSteps().value"
-        :model-statuses="modelStatuses"
-        @clear-steps="clearProcessSteps"
-        ref="processPanelRef"
-      />
-    </div>
+    <!-- Multi Model Chat -->
+    <MultiModelChat 
+      :process-steps="processStepManager.getSteps().value"
+      :model-statuses="modelStatuses"
+      @clear-steps="clearProcessSteps"
+    />
   </div>
 </template>
 
@@ -34,7 +27,6 @@ import { processFileContent, isSupportedFile, getFileTypeDescription } from './u
 // 导入组件
 import AppHeader from './components/AppHeader.vue';
 import MultiModelChat from './components/MultiModelChat.vue';
-import ProcessPanel from './components/ProcessPanel.vue';
 import SettingsModal from './components/SettingsModal.vue';
 
 // 导入服务
@@ -62,7 +54,6 @@ const processStepManager = new ProcessStepManager();
 
 // 组件引用
 const multiModelChatRef = ref<InstanceType<typeof MultiModelChat> | null>(null);
-const processPanelRef = ref<InstanceType<typeof ProcessPanel> | null>(null);
 
 // --- Reactive State ---
 const status = computed(() => {
@@ -107,6 +98,31 @@ const modelStatuses = computed(() => {
 
 // --- Lifecycle Hooks ---
 onMounted(() => {
+  // 动态计算滚动条高度
+  const calculateScrollbarHeight = () => {
+    const outer = document.createElement('div');
+    outer.style.visibility = 'hidden';
+    outer.style.overflow = 'scroll';
+    (outer.style as any).msOverflowStyle = 'scrollbar';
+    document.body.appendChild(outer);
+    
+    const inner = document.createElement('div');
+    outer.appendChild(inner);
+    
+    const scrollbarHeight = outer.offsetHeight - inner.offsetHeight;
+    outer.parentNode?.removeChild(outer);
+    
+    // 设置CSS变量
+    document.documentElement.style.setProperty('--scrollbar-height', `${scrollbarHeight}px`);
+    document.documentElement.style.setProperty('--available-height', `calc(100vh - ${scrollbarHeight}px)`);
+    
+    return scrollbarHeight;
+  };
+  
+  // 计算滚动条高度
+  const scrollbarHeight = calculateScrollbarHeight();
+  console.log('检测到滚动条高度:', scrollbarHeight, 'px');
+  
   // 现在使用MultiModelChat组件，不需要模态框初始化
   // 检查是否有共享数据
   if (props.sharedData && (props.sharedData.textChunks.length > 0 || props.sharedData.vectorChunks.length > 0)) {
@@ -205,12 +221,16 @@ const clearProcessSteps = () => {
 </script>
 
 <style>
-/* 左右布局样式 */
+/* 全屏布局样式 */
 .app-layout {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
+  width: 100%;
   overflow: hidden;
+  /* 计算可用高度，减去滚动条高度 */
+  --scrollbar-height: 16px;
+  --available-height: calc(100vh - var(--scrollbar-height));
 }
 
 .app-header {
@@ -224,13 +244,6 @@ const clearProcessSteps = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.main-content {
-  display: flex;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
 }
 
 /* 确保模态框遮罩不会干扰输入 */
