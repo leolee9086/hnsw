@@ -1,6 +1,6 @@
 {
   "name": "@leolee9086/hnsw",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "JavaScript HNSW (Hierarchical Navigable Small World) 向量索引库，支持动态操作和泛型搜索",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
