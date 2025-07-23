@@ -4,7 +4,8 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    include: ['**/*.{test,spec,bench}.{js,ts}'],
+    include: ['**/*.{test,spec}.{js,ts}'],
+    exclude: ['**/bench/**', '**/node_modules/**', '**/dist/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
@@ -13,7 +14,8 @@ export default defineConfig({
         'dist/',
         '**/*.d.ts',
         '**/*.config.*',
-        '**/coverage/**'
+        '**/coverage/**',
+        '**/bench/**'
       ]
     }
   }
