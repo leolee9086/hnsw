@@ -26,10 +26,10 @@ yarn add @leolee9086/hnsw
 ### 基本使用
 
 ```typescript
-import { createHNSWIndex } from '@leolee9086/hnsw';
+import { hnsw } from '@leolee9086/hnsw';
 
 // 创建HNSW索引
-const index = createHNSWIndex({
+const index = hnsw.createIndex({
   M: 16,              // 每个节点的最大连接数
   efConstruction: 200, // 构建时的搜索参数
   metricType: 'cosine' // 距离度量类型: 'cosine' | 'l2'
@@ -63,7 +63,7 @@ console.log(results);
 
 ```typescript
 // 使用L2距离
-const l2Index = createHNSWIndex({
+const l2Index = hnsw.createIndex({
   M: 32,
   efConstruction: 400,
   metricType: 'l2'
@@ -91,7 +91,7 @@ console.log(stats);
 本库提供了泛型化版本，支持任意数据类型和自定义距离函数：
 
 ```typescript
-import { createHNSWIndex } from '@leolee9086/hnsw';
+import { hnsw } from '@leolee9086/hnsw';
 
 // 1. 向量相似性搜索（使用自定义距离函数）
 const cosineDistance = (a: number[], b: number[]): number => {
@@ -112,7 +112,7 @@ const cosineDistance = (a: number[], b: number[]): number => {
   return 1.0 - dotProduct / (normA * normB);
 };
 
-const vectorIndex = createHNSWIndex({
+const vectorIndex = hnsw.createIndexGeneric({
   M: 16,
   efConstruction: 200,
   distanceFunction: cosineDistance
@@ -148,7 +148,7 @@ const editDistance = (a: string, b: string): number => {
   return matrix[a.length]![b.length]!;
 };
 
-const stringIndex = createHNSWIndex({
+const stringIndex = hnsw.createIndexGeneric({
   M: 16,
   efConstruction: 200,
   distanceFunction: editDistance
@@ -175,7 +175,7 @@ const euclideanDistance = (a: Point, b: Point): number => {
   return Math.sqrt(dx * dx + dy * dy);
 };
 
-const pointIndex = createHNSWIndex({
+const pointIndex = hnsw.createIndexGeneric({
   M: 16,
   efConstruction: 200,
   distanceFunction: euclideanDistance
@@ -218,7 +218,7 @@ const optimizedCosineDistance = (a: number[], b: number[]): number => {
   return 1.0 - dotProduct;
 };
 
-const optimizedIndex = createHNSWIndex({
+const optimizedIndex = hnsw.createIndexGeneric({
   M: 16,
   efConstruction: 200,
   distanceFunction: optimizedCosineDistance
@@ -229,7 +229,7 @@ const optimizedIndex = createHNSWIndex({
 
 ### 标准版 API
 
-#### `createHNSWIndex(config)`
+#### `hnsw.createIndex(config)`
 
 创建HNSW索引实例（标准版，仅支持向量）。
 
@@ -248,7 +248,7 @@ const optimizedIndex = createHNSWIndex({
 
 ### 🎨 泛型版 API
 
-#### `createHNSWIndex<T>(config)`
+#### `hnsw.createIndexGeneric<T>(config)`
 
 创建泛型HNSW索引实例，支持任意数据类型。
 

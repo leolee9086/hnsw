@@ -22,6 +22,17 @@
           <li class="nav-item">
             <a 
               class="nav-link" 
+              :class="{ active: currentApp === 'knowledge-base' }"
+              href="#"
+              @click.prevent="switchApp('knowledge-base')"
+            >
+              <i class="bi bi-database me-1"></i>
+              知识库
+            </a>
+          </li>
+          <li class="nav-item">
+            <a 
+              class="nav-link" 
               :class="{ active: currentApp === 'rag' }"
               href="#"
               @click.prevent="switchApp('rag')"
@@ -53,6 +64,12 @@
         @file-processed="handleFileProcessed"
         :offline-embedder="offlineEmbedder"
         :embedding-model="embeddingModel"
+      />
+      
+      <!-- 知识库应用 -->
+      <KnowledgeBaseApp 
+        v-if="currentApp === 'knowledge-base'"
+        ref="knowledgeBaseApp"
       />
       
       <!-- RAG 聊天应用 -->
@@ -92,12 +109,13 @@
 import { ref, onMounted } from 'vue';
 import FileSearchApp from './FileSearchApp.vue';
 import App from './App.vue';
+import KnowledgeBaseApp from './components/KnowledgeBaseApp.vue';
 import EmbeddingSettingsModal from './components/EmbeddingSettingsModal.vue';
 import ModelConfigModal from './components/ModelConfigModal.vue';
 import { createOfflineEmbeddingProvider, OfflineEmbeddingService } from './services/OfflineEmbeddingService';
 
 // 当前应用状态
-const currentApp = ref<'search' | 'rag'>('search');
+const currentApp = ref<'search' | 'knowledge-base' | 'rag'>('search');
 
 // 应用引用
 const fileSearchApp = ref<InstanceType<typeof FileSearchApp> | null>(null);
@@ -122,7 +140,7 @@ let modelConfigModalInstance: any = null;
 const showDataShareTip = ref(false);
 
 // 切换应用
-const switchApp = (app: 'search' | 'rag') => {
+const switchApp = (app: 'search' | 'knowledge-base' | 'rag') => {
   currentApp.value = app;
   if (app === 'rag' && (sharedData.value.textChunks.length > 0 || sharedData.value.vectorChunks.length > 0)) {
     showDataShareTip.value = true;

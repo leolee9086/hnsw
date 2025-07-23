@@ -296,7 +296,7 @@ export const isSupportedFile = (fileName: string): boolean => {
  */
 export const getFileTypeDescription = (fileName: string): string => {
   const fileType = detectFileType(fileName);
-  const extension = fileName.toLowerCase().split('.').pop() || '';
+  // const extension = fileName.toLowerCase().split('.').pop() || '';
   
   const descriptions: Record<string, string> = {
     'text/plain': '纯文本文件',

@@ -97,7 +97,7 @@ class SecureStorageService {
     
     // 如果不是有效的base64，可能是非加密数据
     if (!isValidBase64(encryptedText)) {
-      console.warn('检测到非加密数据，直接返回');
+      // console.warn('检测到非加密数据，直接返回');
       return encryptedText;
     }
     

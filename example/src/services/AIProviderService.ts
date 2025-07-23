@@ -239,7 +239,7 @@ export function createEmbeddingProvider(
 }
 
 // 离线嵌入服务工厂（预留）
-export function createOfflineEmbeddingProvider(modelName: string): OfflineEmbeddingProvider {
+export function createOfflineEmbeddingProvider(_modelName: string): OfflineEmbeddingProvider {
   // TODO: 实现离线嵌入服务
   throw new Error('离线嵌入服务尚未实现');
 } 

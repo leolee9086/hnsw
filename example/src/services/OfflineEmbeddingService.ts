@@ -12,7 +12,7 @@ export class OfflineEmbeddingService implements OfflineEmbeddingProvider, Embedd
   constructor(modelName: string) {
     this.modelName = modelName;
     this.name = `离线嵌入 - ${modelName}`;
-    this.worker = new Worker(new URL('../src/embedder-worker.js', import.meta.url), { type: 'module' });
+    this.worker = new Worker(new URL('../embedder-worker.js', import.meta.url), { type: 'module' });
     this.worker.onmessage = this.handleMessage.bind(this);
   }
 
